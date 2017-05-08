@@ -96,6 +96,16 @@ function remove(CODE){
 //		return({'status': 501, 'msg': '删除失败，未有数据'});
 }
 
+function calcPrice(){
+	var _price = 0;
+	$(".item").each(function(){
+		_price += ($(this).find(".checkitem").is(":checked") ? 1:0) *
+			parseInt($(this).find(".amount").val())*
+			parseInt($(this).find("dd.price").html());
+	});
+	$('#totalprice').html(_price);
+}
+
 function formURL(CODE){
 	if (CODE.length > 10){
 		var url = CODE.substring(0,2)+"/"+CODE.substring(2,6)+"/"+CODE.substring(6,8)+"/"+CODE.substring(8,10)+"/"+CODE;
@@ -124,12 +134,13 @@ function loadList(){
 	$("#result").html("");
 	
 	var result = $(document.createElement("div"));
+	
 	result.attr("id","result");
 	for(var i in _List){
 		var item = $(document.createElement("div"));
 		item.addClass('item');
 		var _html = '<div>'+
-			'<input type="checkbox" />'+
+			'<input type="checkbox" class="checkitem" />'+
 			'</div>'+
 			'<div>'+
 				'<a href="'+formURL(_List[i]["CODE"])+'">'+
@@ -150,7 +161,7 @@ function loadList(){
 				'	<dt class="info">ジャンル</dt><dd>'+_List[i]["gnr"]+'</dd>'+
 				'	<dt class="info">メインキャラ</dt><dd>'+_List[i]["mch"]+'</dd>'+
 				'	<dt class="attr"></dt><dd></dd>'+
-				'	<dt class="price">価格:</dt><dd>'+_List[i]["TANKA"]+'</dd>'+
+				'	<dt class="price">価格:</dt><dd class="price">'+_List[i]["TANKA"]+'</dd>'+
 				'</dl>'+
 			'</div>'+
 			'<div class="operation">';
@@ -177,6 +188,10 @@ function loadList(){
 	}
 	
 	$("#result").replaceWith(result);
+	
+	$('.amount').on('change', function() {
+		calcPrice();
+	})
 }
 
 $(document).ready(function(){
@@ -214,4 +229,7 @@ $(document).ready(function(){
 			loadList();
 		});
 	};
+	$('.checkitem').change(function(){
+		calcPrice();
+	});
 });

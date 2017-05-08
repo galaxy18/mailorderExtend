@@ -8,16 +8,6 @@
 #ls_box #ls_form input{padding:5px 10px;width:370px;}
 #ls_box #ls_form button{padding:5px 10px;}
 
-.item{
-	box-shadow: 0 0 5px rgba(0,0,0,0.6);
-	-webkit-transition: .5s ease;
-	-moz-transition: .5s ease;
-	-o-transition: .5s ease;
-}
-.redborder{
-	box-shadow: 0 0 5px rgba(255,0,0,1);
-}
-
 body {
 	font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
 	font-size: 100%;
@@ -31,7 +21,7 @@ body {
 	display: flex;
 	align-items: center;
 	font-size:10px;
-	margin: 10px 0 10px -10px;
+	margin: 10px 0;
 }
 #result .item img{
 	height: 180px;
@@ -68,6 +58,23 @@ body {
 #result .operation button{
 	width: 80%;
 	margin: 1ex 0;
+}
+
+/*animating*/
+#result .item{
+	box-shadow: 0 0 5px rgba(0,0,0,0.6);
+	margin-left: 0%;
+	opacity: 1;
+	-webkit-transition: 1s ease;
+	-moz-transition: 1s ease;
+	-o-transition: 1s ease;
+}
+#result .item.redborder{
+	box-shadow: 0 0 5px rgba(255,0,0,1);
+}
+#result .item.hide{
+	opacity: 0;
+	margin-left: -100%;
 }
 
 /*checkbox*/
