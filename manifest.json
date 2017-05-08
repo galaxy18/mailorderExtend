@@ -10,10 +10,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"http://www.toranoana.jp/*"
-			],
-			"exclude_globs":[
-				"http://www.toranoana.jp/*/genre/*"
+				"http://www.toranoana.jp/mailorder/article/*"
 			],
 			"css": ["css/common.css"],
 			"js": [

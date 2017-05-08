@@ -1,4 +1,3 @@
-
 #ls_box{position:absolute;width:500px;height:300px;background-color:#fff;border-radius:5px;border:1px solid #ccc;left:50%;top:50%;margin-left:-250px;margin-top:-150px;padding:10px;z-index:99999;}
 #ls_box h3{padding:0px;margin:0px;height:30px;line-height:30px;border-bottom:1px solid #ccc;}
 #ls_box #ls_list{padding:10px 0px;height:200px;overflow:auto;}
@@ -8,3 +7,98 @@
 #ls_box #ls_form{background-color:#efefef;padding:10px;border-radius:5px;}
 #ls_box #ls_form input{padding:5px 10px;width:370px;}
 #ls_box #ls_form button{padding:5px 10px;}
+
+.item{
+	box-shadow: 0 0 5px rgba(0,0,0,0.6);
+	-webkit-transition: .5s ease;
+	-moz-transition: .5s ease;
+	-o-transition: .5s ease;
+}
+.redborder{
+	box-shadow: 0 0 5px rgba(255,0,0,1);
+}
+
+body {
+	font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+	font-size: 100%;
+	min-width: 700px;
+	max-width: 800px;
+	min-height: 400px;
+}
+#result .item{
+	width: 100%;
+	border-radius: 5px 20px 5px 5px;
+	display: flex;
+	align-items: center;
+	font-size:10px;
+	margin: 10px 0 10px -10px;
+}
+#result .item img{
+	height: 180px;
+}
+#result .item .spacing{
+	width:2em;
+}
+#result .item p{
+	margin: 1ex 0;
+}
+#result .item p span{
+	padding: 0 0.5em 0 0;
+}
+#result .item .title{
+	font-size: 200%;
+}
+#result dl{
+	display: flex;
+	flex-wrap: wrap;
+}
+#result dl dt{
+	flex-basis: 20%;
+}
+#result dl dd{
+	flex-basis: 80%;
+	-webkit-margin-start: 0;
+}
+#result .operation{
+	flex-direction: column;
+	flex-basis: 10%;
+	text-align: center;
+}
+#result .operation select,
+#result .operation button{
+	width: 80%;
+	margin: 1ex 0;
+}
+
+/*checkbox*/
+#result .item input[type='checkbox']{
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+#result .item input[type='checkbox']:active, #result .item input[type='checkbox']:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+#result .item input[type='checkbox']:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+#result .item input[type='checkbox']:checked:after {
+	content: '〇';
+	font-size: 16px;
+	position: absolute;
+	top: 0px;
+	left: 1px;
+	color: #99a1a7;
+}
+
+.icon_toraonly{
+	display: none;
+}

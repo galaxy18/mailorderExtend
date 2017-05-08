@@ -3,96 +3,16 @@
   <head>
   	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Getting Started Extension's Popup</title>
-    <style>
-		body {
-			font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-			font-size: 100%;
-	        min-width: 700px;
-	        max-width: 800px;
-	        min-height: 400px;
-		}
-		#result{
-		}
-		#result .item{
-			width: 100%;
-			box-shadow: 0 0 5px black;
-			border-radius: 0 20px 0 0;
-			display: flex;
-			align-items: center;
-			font-size:10px;
-		}
-		
-		#result .item input[type='checkbox']{
-			-webkit-appearance: none;
-			background-color: #fafafa;
-			border: 1px solid #cacece;
-			box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-			padding: 9px;
-			border-radius: 3px;
-			display: inline-block;
-			position: relative;
-		}
-		#result .item input[type='checkbox']:active, #result .item input[type='checkbox']:checked:active {
-			box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-		}
-		#result .item input[type='checkbox']:checked {
-			background-color: #e9ecee;
-			border: 1px solid #adb8c0;
-			box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-			color: #99a1a7;
-		}
-		#result .item input[type='checkbox']:checked:after {
-			content: '〇';
-			font-size: 16px;
-			position: absolute;
-			top: 0px;
-			left: 1px;
-			color: #99a1a7;
-		}
-		
-		#result .item img{
-			height: 180px;
-		}
-		#result .item .spacing{
-			width:2em;
-		}
-		#result .item p{
-			margin: 1ex 0;
-		}
-		#result .item p span{
-			padding: 0 0.5em 0 0;
-		}
-		#result .item .title{
-			font-size: 200%;
-		}
-			#result dl{
-				display: flex;
-				flex-wrap: wrap;
-			}
-			#result dl dt{
-				flex-basis: 20%;
-			}
-			#result dl dd{
-				flex-basis: 80%;
-				-webkit-margin-start: 0;
-			}
-		#result .operation{
-			flex-direction: column;
-			flex-basis: 10%;
-			text-align: center;
-		}
-		#result .operation select,
-		#result .operation button{
-			width: 80%;
-			margin: 1ex 0;
-		}
-    </style>
+    <link rel="stylesheet" href="css/common.css">
     <script src="include/jquery-1.11.0.min.js"></script>
     <script src="scripts/background.js"></script>
   </head>
   <body>
-  	<h2>已储存的档案</h2>
     <div id="result"></div>
+    <hr>
+    <h2>管理</h2>
+    <button class="ls_export">导出</button>
+    <input type="file" name="upload" id="upload" accept="text/plain" />
   </body>
 </html>
 

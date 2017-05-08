@@ -54,7 +54,7 @@ var main = {
 		if(response.status == 404){
 		}
 		else{
-			var objData = response.data;
+			var objData = JSON.parse(response.data);
 			$(".id").each(function(){
 				if (objData.hasOwnProperty(site + $(this).html())){
 					var imgitem = $(this).closest("li");

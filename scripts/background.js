@@ -9,33 +9,33 @@
 /**
  * 监听content_script发送的消息
  */
+var _List = new Object();
+
+function initList(){
+	var strList = localStorage['list'];
+	if(strList){
+		_List = JSON.parse(strList);
+	}
+}
+
+initList();
+
 chrome.extension.onMessage.addListener(function(request, _, sendResponse){
 	var dicReturn;
 	
 	if(request.action == 'list'){
-		var strList = localStorage['list'];
-		if(strList){
-			var objList = JSON.parse(strList);
-			dicReturn = {'status': 200, 'data': objList};
-		}else{
-			dicReturn = {'status': 404}
-		}
-		sendResponse(dicReturn);
+//		dicReturn = {'status': 404};
+		sendResponse({'status': 200, 'data': JSON.stringify(_List)});
 	}
 
 	if(request.action == 'save'){
 		var strMessage = request.data.message;
 		
 		var objMessage = JSON.parse(strMessage);
-		var strList = localStorage['list'];
-		var objList = new Object();
-		if(strList){
-			objList = JSON.parse(strList)
-		}
-		objList[objMessage["site"]+objMessage["CODE"]] = objMessage;
-		localStorage['list'] = JSON.stringify(objList);
+		_List[objMessage["site"]+objMessage["CODE"]] = objMessage;
+		localStorage['list'] = JSON.stringify(_List);
 
-		dicReturn = {'status': 200, 'data': objList};
+		dicReturn = {'status': 200, 'data': JSON.stringify(_List)};
 		sendResponse(dicReturn);
 	}
 
@@ -43,17 +43,18 @@ chrome.extension.onMessage.addListener(function(request, _, sendResponse){
 	if(request.action == 'del'){
 		// content_script传来的message
 		var strCODE = request.data.message;
-		// 从localstorage中读取数据
-		var strList = localStorage['list'];
-		if(strList){
-			objList = JSON.parse(strList);
-			delete objList[strCODE];
-
-			localStorage['list'] = JSON.stringify(objList);
-			sendResponse({'status': 200, 'data': objList});
-		}else{
-			sendResponse({'status': 501, 'msg': '删除失败，未有数据'});
-		}
+		sendResponse(remove(strCODE));
+//		// 从localstorage中读取数据
+//		var strList = localStorage['list'];
+//		if(strList){
+//			objList = JSON.parse(strList);
+//			delete objList[strCODE];
+//
+//			localStorage['list'] = JSON.stringify(objList);
+//			sendResponse({'status': 200, 'data': objList});
+//		}else{
+//			sendResponse({'status': 501, 'msg': '删除失败，未有数据'});
+//		}
 	}
 	
 	if(request.action == 'view'){
@@ -72,54 +73,84 @@ chrome.extension.onMessage.addListener(function(request, _, sendResponse){
 	}
 });
 
-function save(site, CODE, amount){
+function save(item){
+	var site = item.find(".site").html();
+	var CODE = item.find(".CODE").html();
+	var amount = item.find(".amount").val();
+	
 	var objMessage = {"site":site, "CODE":CODE, "amount":amount};
-	var strList = localStorage['list'];
-	var objList = new Object();
-	if(strList){
-		objList = JSON.parse(strList)
-	}
-	objList[objMessage["site"]+objMessage["CODE"]] = 
-		$.extend(objList[objMessage["site"]+objMessage["CODE"]], objMessage);
-	localStorage['list'] = JSON.stringify(objList);
+	_List[objMessage["site"]+objMessage["CODE"]] = 
+		$.extend(_List[objMessage["site"]+objMessage["CODE"]], objMessage);
+	localStorage['list'] = JSON.stringify(_List);
+	
+	item.addClass('redborder').delay(1000).queue(function() {
+		$(this).removeClass('redborder');
+		$(this).dequeue();
+	});
 }
 
-$(document).ready(function(){
-	$("#result").html("");
-	var objList = new Object();
-	var strList = localStorage['list'];
-	if(strList){
-		objList = JSON.parse(strList);
+function remove(CODE){
+	delete _List[CODE];
+	localStorage['list'] = JSON.stringify(_List);
+	return({'status': 200, 'data': _List});
+//		return({'status': 501, 'msg': '删除失败，未有数据'});
+}
+
+function formURL(CODE){
+	if (CODE.length > 10){
+		var url = CODE.substring(0,2)+"/"+CODE.substring(2,6)+"/"+CODE.substring(6,8)+"/"+CODE.substring(8,10)+"/"+CODE;
+		return ("http://www.toranoana.jp/mailorder/article/"+url+".html");
 	}
+	return "";
+}
+
+function getFileContent(fileInput, callback) {
+    if (fileInput.files && fileInput.files.length > 0 && fileInput.files[0].size > 0) {
+        var file = fileInput.files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.onloadend = function (evt) {
+                if (evt.target.readyState == FileReader.DONE) {
+                    callback(evt.target.result);
+                }
+            };
+            // 包含中文内容用gbk编码
+            reader.readAsText(file, 'UTF-8');
+        }
+    }
+};
+
+function loadList(){
+	$("#result").html("");
 	
 	var result = $(document.createElement("div"));
 	result.attr("id","result");
-	for(var i in objList){
+	for(var i in _List){
 		var item = $(document.createElement("div"));
 		item.addClass('item');
 		var _html = '<div>'+
 			'<input type="checkbox" />'+
 			'</div>'+
 			'<div>'+
-				'<a href="http://www.toranoana.jp'+objList[i]["U"]+'">'+
-				'	<img src="'+objList[i]["imageurl"]+'" alt="同人">'+
+				'<a href="'+formURL(_List[i]["CODE"])+'">'+
+				'	<img src="'+_List[i]["imageurl"]+'" alt="同人">'+
 				'</a>'+
 			'</div>'+
 			'<div class="spacing">'+
 			'</div>'+
 			'<div>'+
 				'<div>'+
-				'   <p class="site" style="display:none">'+objList[i]["site"]+'</p>'+
-				'   <p class="CODE" style="display:none">'+objList[i]["CODE"]+'</p>'+
-				'	<p class="id"><span>注文番号</span>'+objList[i]["CODE"]+'</p>'+
-				'	<p class="title">'+objList[i]["GNAME"]+'</p>'+
+				'   <p class="site" style="display:none">'+_List[i]["site"]+'</p>'+
+				'   <p class="CODE" style="display:none">'+_List[i]["CODE"]+'</p>'+
+				'	<p class="id"><span>注文番号</span>'+_List[i]["CODE"]+'</p>'+
+				'	<p class="title">'+_List[i]["GNAME"]+'</p>'+
 				'</div>'+
 				'<dl>'+
-				'	<dt class="info">サークル</dt><dd>'+objList[i]["mak"]+'</dd>'+
-				'	<dt class="info">ジャンル</dt><dd>'+objList[i]["gnr"]+'</dd>'+
-				'	<dt class="info">メインキャラ</dt><dd>'+objList[i]["mch"]+'</dd>'+
+				'	<dt class="info">サークル</dt><dd>'+_List[i]["mak"]+'</dd>'+
+				'	<dt class="info">ジャンル</dt><dd>'+_List[i]["gnr"]+'</dd>'+
+				'	<dt class="info">メインキャラ</dt><dd>'+_List[i]["mch"]+'</dd>'+
 				'	<dt class="attr"></dt><dd></dd>'+
-				'	<dt class="price">価格:</dt><dd>'+objList[i]["TANKA"]+'</dd>'+
+				'	<dt class="price">価格:</dt><dd>'+_List[i]["TANKA"]+'</dd>'+
 				'</dl>'+
 			'</div>'+
 			'<div class="operation">';
@@ -127,7 +158,7 @@ $(document).ready(function(){
 		for (var j = 0; j <= 5; j++){
 			_html += '<option value="'+j+'"';
 			try{
-				if (j == parseInt(objList[i]['amount'])){
+				if (j == parseInt(_List[i]['amount'])){
 					_html += ' selected ';
 				}
 			}catch(err){console.log("record not exist");}
@@ -144,15 +175,43 @@ $(document).ready(function(){
 		item.html(_html);
 		result.append(item);
 	}
+	
+	$("#result").replaceWith(result);
+}
+
+$(document).ready(function(){
+	loadList();
 	$('body').on('click', 'a', function(){
 		chrome.tabs.create({url: $(this).attr('href')});
 		return false;
 	});
-	$("#result").replaceWith(result);
 	$(".ls_save").click(function(){
 		var item = $(this.closest('.item'));
-		save(item.find(".site").html(),
-			item.find(".CODE").html(),
-			item.find(".amount").val());
+		save(item);
 	});
-})
+	$(".ls_del").click(function(){
+		var item = $(this.closest('.item'));
+		if(confirm('确定要删除该条记录吗？')){
+			remove(item.find(".site").html()+item.find(".CODE").html());
+			loadList();
+		}
+	});
+	$(".ls_export").click(function(){
+		var strList = localStorage['list'];
+	    var blob = new Blob([strList]);
+	    
+	    var aLink = document.createElement('a');
+	    var evt = document.createEvent("MouseEvents");
+	    evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	    aLink.download = "localStorage.json";
+	    aLink.href = URL.createObjectURL(blob);
+	    aLink.dispatchEvent(evt);
+	});
+	document.getElementById('upload').onchange = function () {
+		getFileContent(this, function (str) {
+			localStorage['list'] = str;
+			initList();
+			loadList();
+		});
+	};
+});

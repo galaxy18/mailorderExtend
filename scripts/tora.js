@@ -20,7 +20,48 @@ function getCode(url){
     return data["site"]+data["CODE"];
 }
 
+//to limit the record size
 function download(url){
+    var data = new Object();
+    
+    if (url.indexOf("toranoana") > 0){
+    	data = new Object({'site':'tora'});
+    	
+        data["GNAME"] = $("#id_detail_main>h4").html().replace("<span>商品名</span>","");
+        data["CODE"] = $("#item_code").attr("value");
+        data["TANKA"] = ($(".price>span").get(0).nextSibling).data.trim().replace("円（＋税）","").replace(",","");
+        //data["U"] = window.location.href.replace("http://www.toranoana.jp","");
+        //extend
+        if ($("form[action='/cgi-bin/R5/details.cgi']").length > 0){
+        	var formdata = objectifyForm($("form[action='/cgi-bin/R5/details.cgi']"));
+        	data["GNAME"] = formdata["GNAME"];
+        	data["CODE"] = formdata["CODE"];
+        	data["TANKA"] = formdata["TANKA"];
+        	//data["U"] = formdata["U"];
+        }
+        
+        data["imageurl"] = $('.dimg').find("img").get(0).src;
+        
+        for (var i = 0; i < $('#id_detail_main dt').length; i++){
+            var datakey = $('#id_detail_main dt').get(i).innerHTML;
+            
+            if (datakey.indexOf("サークル名")>=0)datakey = "mak";
+            else if (datakey.indexOf("主な作家")>=0)datakey = "act";
+            else if (datakey.indexOf("ジャンル")>=0)datakey = "gnr";
+            else if (datakey.indexOf("メインキャラ")>=0)datakey = "mch";
+            
+            if (datakey == "mak" || datakey == "act" || datakey == "gnr"){
+            	data[datakey]=$($('#id_detail_main dd').get(i)).find('a').get(0).innerHTML;
+            }
+            if (datakey == "mch"){
+                data[datakey]=$('#id_detail_main dd').get(i).innerHTML;
+            }
+        }
+    }
+    return data;
+}
+
+function _download(url){
     var data = new Object();
     
     if (url.indexOf("toranoana") > 0){
