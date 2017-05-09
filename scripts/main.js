@@ -61,7 +61,7 @@ var main = {
 		if(response.status == 404){
 		}
 		else{
-			var objData = response.data;
+			var objData = JSON.parse(response.data);
 			var CODE = getCode(window.location.href);
 			if (objData.hasOwnProperty(CODE)){
 				keyexist = true;
@@ -87,6 +87,9 @@ var main = {
 		_html += '&nbsp;<button id="ls_save">更新</button>';
 		
 		_html += '&nbsp;<button id="ls_view">检视</button>';
+		
+//		_html += '&nbsp;&nbsp;<button id="ls_blst">黑名单</button>';
+//		_html += '&nbsp;&nbsp;<button id="ls_blst_a">作者黑名单</button>';
 		
 		if (keyexist){
 			_html += '&nbsp;<button class="ls_del">移除</button>';

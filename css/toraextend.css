@@ -1,0 +1,44 @@
+ul.imgitem_list li.pur{
+	border: 1px outset blue;
+}
+
+ul.imgitem_list li.pur:after{
+	content:"";
+	position:absolute;
+	right:0px;
+	top: 0px;
+	width: 0;
+    height: 0;
+    border-top: 20px solid blue;
+    border-left: 20px solid transparent;
+}
+
+ul.imgitem_list li.fav{
+	border: 1px outset red;
+}
+
+ul.imgitem_list li.fav:after{
+	content:"";
+	position:absolute;
+	right:0px;
+	top: 0px;
+	width: 0;
+    height: 0;
+    border-top: 20px solid red;
+    border-left: 20px solid transparent;
+}
+
+ul.imgitem_list li.blst{
+	border: 1px outset grey;
+}
+
+ul.imgitem_list li.blst:after{
+	content:"";
+	position:absolute;
+	right:0px;
+	top: 0px;
+	width: 0;
+    height: 0;
+    border-top: 20px solid grey;
+    border-left: 20px solid transparent;
+}

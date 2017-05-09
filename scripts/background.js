@@ -83,8 +83,9 @@ function save(item){
 		$.extend(_List[objMessage["site"]+objMessage["CODE"]], objMessage);
 	localStorage['list'] = JSON.stringify(_List);
 	
-	item.addClass('redborder').delay(1000).queue(function() {
-		$(this).removeClass('redborder');
+	item.removeClass("changed");
+	item.addClass('update').delay(1000).queue(function() {
+		$(this).removeClass('update');
 		$(this).dequeue();
 	});
 }
@@ -149,36 +150,35 @@ function loadList(){
 			'</div>'+
 			'<div class="spacing">'+
 			'</div>'+
-			'<div>'+
+			'<div class="info">'+
 				'<div>'+
 				'   <p class="site" style="display:none">'+_List[i]["site"]+'</p>'+
-				'   <p class="CODE" style="display:none">'+_List[i]["CODE"]+'</p>'+
-				'	<p class="id"><span>注文番号</span>'+_List[i]["CODE"]+'</p>'+
+				'	<p class="CODE">'+_List[i]["CODE"]+'</p>'+
 				'	<p class="title">'+_List[i]["GNAME"]+'</p>'+
 				'</div>'+
 				'<dl>'+
-				'	<dt class="info">サークル</dt><dd>'+_List[i]["mak"]+'</dd>'+
-				'	<dt class="info">ジャンル</dt><dd>'+_List[i]["gnr"]+'</dd>'+
-				'	<dt class="info">メインキャラ</dt><dd>'+_List[i]["mch"]+'</dd>'+
-				'	<dt class="attr"></dt><dd></dd>'+
+				'	<dt class="">サークル</dt><dd>'+_List[i]["mak"]+'</dd>'+
+				'	<dt class="">ジャンル</dt><dd>'+_List[i]["gnr"]+'</dd>'+
+				'	<dt class="">メインキャラ</dt><dd>'+_List[i]["mch"]+'</dd>'+
+				'	<dt class=""></dt><dd></dd>'+
 				'	<dt class="price">価格:</dt><dd class="price">'+_List[i]["TANKA"]+'</dd>'+
 				'</dl>'+
-			'</div>'+
-			'<div class="operation">';
-		_html += '<select class="amount">';
-		for (var j = 0; j <= 5; j++){
-			_html += '<option value="'+j+'"';
-			try{
-				if (j == parseInt(_List[i]['amount'])){
-					_html += ' selected ';
-				}
-			}catch(err){console.log("record not exist");}
-			_html += '>'+j+'</option>'
-		}
-		_html += "</select>";
-		_html +=
-				'<button class="ls_save">更新</button>'+
-				'<button class="ls_del">移除</button>'+
+				'<div class="operation">';
+			_html += '<select class="amount" data="'+_List[i]['amount']+'">';
+			for (var j = 0; j <= 5; j++){
+				_html += '<option value="'+j+'"';
+				try{
+					if (j == parseInt(_List[i]['amount'])){
+						_html += ' selected ';
+					}
+				}catch(err){console.log("record not exist");}
+				_html += '>'+j+'</option>'
+			}
+			_html += "</select>";
+			_html +=
+					'<button class="ls_save">更新</button>'+
+					'<button class="ls_del">移除</button>'+
+				'</div>'+
 			'</div>'+
 			'<div class="spacing">'+
 			'</div>';
@@ -190,8 +190,16 @@ function loadList(){
 	$("#result").replaceWith(result);
 	
 	$('.amount').on('change', function() {
+		var item = $(this.closest('.item'));
+		if ($(this).val() == $(this).attr('data')){
+			item.removeClass("changed");
+		}
+		else{
+			item.addClass("changed");
+		}
+		
 		calcPrice();
-	})
+	});
 }
 
 $(document).ready(function(){
@@ -221,6 +229,20 @@ $(document).ready(function(){
 	    aLink.download = "localStorage.json";
 	    aLink.href = URL.createObjectURL(blob);
 	    aLink.dispatchEvent(evt);
+	});
+	$(".ls_view").click(function(){
+		chrome.tabs.create({
+            url: chrome.extension.getURL('popup.html'),
+            active: false
+        }, function(tab) {
+            // After the tab has been created, open a window to inject the tab
+            chrome.windows.create({
+                tabId: tab.id,
+                type: 'popup',
+                focused: true
+                // incognito, top, left, ...
+            });
+        });
 	});
 	document.getElementById('upload').onchange = function () {
 		getFileContent(this, function (str) {

@@ -12,31 +12,53 @@ body {
 	font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
 	font-size: 100%;
 	min-width: 700px;
-	max-width: 800px;
+	max-width: 1000px;
 	min-height: 400px;
 }
+#result{
+	display: flex;
+    flex-wrap: wrap;
+}
 #result .item{
-	width: 100%;
+	width: 48%;
 	border-radius: 5px 20px 5px 5px;
 	display: flex;
 	align-items: center;
 	font-size:10px;
-	margin: 10px 0;
+	margin: 10px 2%;
 }
 #result .item img{
 	height: 180px;
+	max-width: 120px;
 }
 #result .item .spacing{
 	width:2em;
+	flex-shrink: 1;
 }
-#result .item p{
+/*#result .item p{
 	margin: 1ex 0;
 }
 #result .item p span{
 	padding: 0 0.5em 0 0;
+}*/
+#result .item .CODE{
+	background-color: rgba(0, 67, 255, 0.2);
+    border-radius: 0 10px 0 0;
+	margin: 5px 0 0 0;
 }
 #result .item .title{
 	font-size: 200%;
+	margin: 0;
+}
+#result .info{
+	display: flex;
+	flex-wrap: wrap;
+}
+#result .info div:nth-child(1){
+	flex-basis: 100%;
+}
+#result .info dl{
+	flex-basis: 80%;
 }
 #result dl{
 	display: flex;
@@ -44,14 +66,18 @@ body {
 }
 #result dl dt{
 	flex-basis: 20%;
+	flex-shrink: 1;
 }
 #result dl dd{
-	flex-basis: 80%;
+	flex-basis: 70%;
+	flex-shrink: 1;
 	-webkit-margin-start: 0;
+}
+#result .info .operation{
+	flex-basis: 20%;
 }
 #result .operation{
 	flex-direction: column;
-	flex-basis: 10%;
 	text-align: center;
 }
 #result .operation select,
@@ -69,7 +95,10 @@ body {
 	-moz-transition: 1s ease;
 	-o-transition: 1s ease;
 }
-#result .item.redborder{
+#result .item.update{
+	box-shadow: 0 0 5px rgba(0,0,255,1);
+}
+#result .item.changed{
 	box-shadow: 0 0 5px rgba(255,0,0,1);
 }
 #result .item.hide{
@@ -108,4 +137,20 @@ body {
 
 .icon_toraonly{
 	display: none;
+}
+
+@media only screen and (max-width: 750px) {
+	#result dl dt{
+		display: none;
+	}
+	#result dl dd{
+		flex-basis: 100%;
+	}
+	#result .operation{
+		flex-basis: 20%;
+	}
+	#result .operation select,
+	#result .operation button{
+		width: 90%;
+	}
 }

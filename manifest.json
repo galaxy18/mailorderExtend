@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "一起来做chrome扩展之本地存储",
-	"version": "0.2",
+	"name": "chrome扩展",
+	"version": "0.3",
 	"description": "",
 	
 	"background": {
@@ -9,10 +9,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": [
-				"http://www.toranoana.jp/mailorder/article/*"
-			],
-			"css": ["css/common.css"],
+			"matches": ["http://www.toranoana.jp/*/article/*"],
 			"js": [
 				"include/jquery-1.11.0.min.js",
 				"scripts/tora.js",
@@ -20,10 +17,8 @@
 			]
 		},
 		{
-			"matches": [
-				"http://www.toranoana.jp/*/genre/*"
-			],
-			"css": ["css/common.css"],
+			"matches": ["http://www.toranoana.jp/*/genre/*"],
+			"css": ["css/toraextend.css"],
 			"js": [
 				"include/jquery-1.11.0.min.js",
 				"scripts/tora.js",

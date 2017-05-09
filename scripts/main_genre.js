@@ -90,9 +90,9 @@ var main = {
 					imgitem.prepend(operation);
 					
 					if (amount > 0){
-						imgitem.css("border","2px solid blue");
+						imgitem.addClass("pur");
 					}else{
-						imgitem.css("border","2px solid red");
+						imgitem.addClass("fav");
 					}
 				}
 			});
