@@ -1,0 +1,49 @@
+ul.imgitem_list li.pur,
+.item_box.pur{
+	position: relative;
+	outline: 1px outset blue;
+}
+ul.itemSet li.pur{
+	position: relative;
+	background-image:linear-gradient(45deg, rgba(0,0,255, 0.2) 10%, transparent 10%, transparent 40%, rgba(0,0,255, 0.2) 40%, rgba(0,0,255, 0.2) 60%, transparent 60%, transparent 90%, rgba(0,0,255, 0.2) 90%),
+		linear-gradient(135deg, rgba(0,0,255, 0.2) 10%, transparent 10%, transparent 40%, rgba(0,0,255, 0.2) 40%, rgba(0,0,255, 0.2) 60%, transparent 60%, transparent 90%, rgba(0,0,255, 0.2) 90%);
+	background-size: 30px 30px;
+}
+
+ul.imgitem_list li.pur:after,
+ul.itemSet li.pur:after,
+.item_box.pur:after{
+	content:"";
+	position:absolute;
+	right:0px;
+	top: 0px;
+	width: 0;
+    height: 0;
+    border-top: 20px solid blue;
+    border-left: 20px solid transparent;
+}
+
+ul.imgitem_list li.fav,
+.item_box.fav{
+	position: relative;
+	outline: 1px outset red;
+}
+ul.itemSet li.fav{
+	position: relative;
+	background-image:linear-gradient(45deg, rgba(255,0,0, 0.2) 10%, transparent 10%, transparent 40%, rgba(255,0,0, 0.2) 40%, rgba(255,0,0, 0.2) 60%, transparent 60%, transparent 90%, rgba(255,0,0, 0.2) 90%),
+		linear-gradient(135deg, rgba(255,0,0, 0.2) 10%, transparent 10%, transparent 40%, rgba(255,0,0, 0.2) 40%, rgba(255,0,0, 0.2) 60%, transparent 60%, transparent 90%, rgba(255,0,0, 0.2) 90%);
+	background-size: 30px 30px;
+}
+
+ul.imgitem_list li.fav:after,
+ul.itemSet li.fav:after,
+.item_box.fav:after{
+	content:"";
+	position:absolute;
+	right:0px;
+	top: 0px;
+	width: 0;
+    height: 0;
+    border-top: 20px solid red;
+    border-left: 20px solid transparent;
+}

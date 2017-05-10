@@ -1,27 +1,35 @@
 {
 	"manifest_version": 2,
 	"name": "chrome扩展",
-	"version": "0.3",
-	"description": "",
+	"version": "0.5",
+	"description": "支持虎穴、CQWEB和Alicebooks的简陋收藏工具",
 	
 	"background": {
 		"page":"popup.html"
 	},
 	"content_scripts": [
 		{
-			"matches": ["http://www.toranoana.jp/*/article/*"],
+			"matches": [
+				"http://www.toranoana.jp/*/article/*",
+				"https://www.c-queen.net/*i/*",
+				"http://alice-books.com/item/show/*"
+			],
 			"js": [
 				"include/jquery-1.11.0.min.js",
-				"scripts/tora.js",
+				"scripts/mailorder.js",
 				"scripts/main.js"
 			]
 		},
 		{
-			"matches": ["http://www.toranoana.jp/*/genre/*"],
-			"css": ["css/toraextend.css"],
+			"matches": [
+				"http://www.toranoana.jp/*/genre/*",
+				"https://www.c-queen.net/c/*",
+				"http://alice-books.com/*genre*"
+			],
+			"css": ["css/orderextend.css"],
 			"js": [
 				"include/jquery-1.11.0.min.js",
-				"scripts/tora.js",
+				"scripts/mailorder.js",
 				"scripts/main_genre.js"
 			]
 		}

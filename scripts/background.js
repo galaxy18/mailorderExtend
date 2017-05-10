@@ -107,10 +107,18 @@ function calcPrice(){
 	$('#totalprice').html(_price);
 }
 
-function formURL(CODE){
-	if (CODE.length > 10){
-		var url = CODE.substring(0,2)+"/"+CODE.substring(2,6)+"/"+CODE.substring(6,8)+"/"+CODE.substring(8,10)+"/"+CODE;
-		return ("http://www.toranoana.jp/mailorder/article/"+url+".html");
+function formURL(site, CODE){
+	if (site === 'tora'){
+		if (CODE.length > 10){
+			var url = CODE.substring(0,2)+"/"+CODE.substring(2,6)+"/"+CODE.substring(6,8)+"/"+CODE.substring(8,10)+"/"+CODE;
+			return ("http://www.toranoana.jp/mailorder/article/"+url+".html");
+		}
+	}
+	if (site === 'kbooks'){
+		return ('https://www.c-queen.net/i/'+CODE+'/');
+	}
+	if (site === 'alicebooks'){
+		return ('http://alice-books.com/item/show/'+CODE);
 	}
 	return "";
 }
@@ -143,17 +151,25 @@ function loadList(){
 		var _html = '<div>'+
 			'<input type="checkbox" class="checkitem" />'+
 			'</div>'+
-			'<div>'+
-				'<a href="'+formURL(_List[i]["CODE"])+'">'+
-				'	<img src="'+_List[i]["imageurl"]+'" alt="同人">'+
-				'</a>'+
+			'<div class="imagelink">'+
+				'<a href="'+formURL(_List[i]["site"], _List[i]["CODE"])+'">';
+		if (_List[i]["site"] === "tora"){
+			_html += '	<img src="'+_List[i]["imageurl"]+'" alt="">';
+		}
+		if (_List[i]["site"] === "kbooks"){
+			_html += '	<img src="'+"https://www.c-queen.net"+_List[i]["imageurl"]+'" alt="">';
+		}
+		if (_List[i]["site"] === "alicebooks"){
+			_html += '	<img src="'+"http://alice-books.com"+_List[i]["imageurl"]+'" alt="">';
+		}
+		_html+=	'</a>'+
 			'</div>'+
 			'<div class="spacing">'+
 			'</div>'+
 			'<div class="info">'+
 				'<div>'+
 				'   <p class="site" style="display:none">'+_List[i]["site"]+'</p>'+
-				'	<p class="CODE">'+_List[i]["CODE"]+'</p>'+
+				'	<p class="CODE '+_List[i]["site"] +'">'+_List[i]["CODE"]+'</p>'+
 				'	<p class="title">'+_List[i]["GNAME"]+'</p>'+
 				'</div>'+
 				'<dl>'+

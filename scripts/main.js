@@ -52,8 +52,20 @@ var main = {
 	
 	checkStorage: function(response){
 		//var _html = '<button id="ls_save">收藏</button>';
-		if ($('#checkStorage').length == 0){
-			$('#content>h2').append('<div style="display:inline-block;" id="checkStorage"></div>');
+		if (window.location.href.indexOf("toranoana") > 0){
+			if ($('#checkStorage').length == 0){
+				$('#content>h2').append('<div style="display:inline-block;" id="checkStorage"></div>');
+			}
+		}
+		if (window.location.href.indexOf("c-queen") > 0){
+			if ($('#checkStorage').length == 0){
+				$('#content>h2').append('<div style="display:inline-block;" id="checkStorage"></div>');
+			}
+		}
+		if (window.location.href.indexOf("alice-books") > 0){
+			if ($('#checkStorage').length == 0){
+				$('.item_ex>h1').append('<br><div style="display:inline-block;" id="checkStorage"></div>');
+			}
 		}
 			
 		var _html = '';

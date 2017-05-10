@@ -50,52 +50,87 @@ var main = {
 	},
 	
 	checkStorage: function(response){
-		var site = "tora";
 		if(response.status == 404){
 		}
 		else{
 			var objData = JSON.parse(response.data);
-			$(".id").each(function(){
-				if (objData.hasOwnProperty(site + $(this).html())){
-					var imgitem = $(this).closest("li");
-					var operation = $(document.createElement('div'));
-					operation.addClass('operation');
-					if (imgitem.find('.operation').length > 0){
-						operation = imgitem.find('.operation').get(0);
+			
+			if (window.location.href.indexOf("toranoana") > 0){
+				var site = "tora";
+				$(".id").each(function(){
+					if (objData.hasOwnProperty(site + $(this).html())){
+						var imgitem = $(this).closest("li");
+						var operation = $(document.createElement('div'));
+						operation.addClass('operation');
+						if (imgitem.find('.operation').length > 0){
+							operation = imgitem.find('.operation').get(0);
+						}
+						var amount = objData[site + $(this).html()]['amount'];
+						var _html = '';
+						
+						if (amount > 0){
+							_html += '已选定：'+amount;
+						}else{
+							_html += '已收藏';
+						}
+						/*
+						_html += '&nbsp;<select class="amount">';
+						for (var i = 0; i <= 5; i++){
+							_html += '<option value="'+i+'"';
+							try{
+								if (i == amount){
+									_html += ' selected ';
+								}
+							}catch(err){console.log("record not exist");}
+							_html += '>'+i+'</option>'
+						}
+						_html += '</select>';
+						_html += '&nbsp;<button class="ls_save">更新</button>';
+						_html += '&nbsp;<button class="ls_view">检视</button>';
+						*/
+						operation.html(_html);
+						imgitem.prepend(operation);
+						
+						if (amount > 0){
+							imgitem.addClass("pur");
+						}else{
+							imgitem.addClass("fav");
+						}
 					}
-					var amount = objData[site + $(this).html()]['amount'];
-					var _html = '';
-					
-					if (amount > 0){
-						_html += '已选定：'+amount;
-					}else{
-						_html += '已收藏';
+				});
+			}
+			if (window.location.href.indexOf("c-queen") > 0){
+				var site = "kbooks";
+				$('.itemSet>li').each(function(){
+					var src = $(this).find('img:eq(0)').attr('src');
+					var CODE = src.substring(src.lastIndexOf('/')+1, src.lastIndexOf('_'));
+					if (objData.hasOwnProperty(site + CODE)){
+						var amount = objData[site + CODE]['amount'];
+						
+						if (amount > 0){
+							$(this).addClass("pur");
+						}else{
+							$(this).addClass("fav");
+						}
 					}
-					/*
-					_html += '&nbsp;<select class="amount">';
-					for (var i = 0; i <= 5; i++){
-						_html += '<option value="'+i+'"';
-						try{
-							if (i == amount){
-								_html += ' selected ';
-							}
-						}catch(err){console.log("record not exist");}
-						_html += '>'+i+'</option>'
+				});
+			}
+			if (window.location.href.indexOf("alice-books") > 0){
+				var site = "alicebooks";
+				$('.item_box').each(function(){
+					var src = $(this).find('.item_name a').attr('href');
+					var CODE = src.substring(src.lastIndexOf('/')+1);
+					if (objData.hasOwnProperty(site + CODE)){
+						var amount = objData[site + CODE]['amount'];
+						
+						if (amount > 0){
+							$(this).addClass("pur");
+						}else{
+							$(this).addClass("fav");
+						}
 					}
-					_html += '</select>';
-					_html += '&nbsp;<button class="ls_save">更新</button>';
-					_html += '&nbsp;<button class="ls_view">检视</button>';
-					*/
-					operation.html(_html);
-					imgitem.prepend(operation);
-					
-					if (amount > 0){
-						imgitem.addClass("pur");
-					}else{
-						imgitem.addClass("fav");
-					}
-				}
-			});
+				});
+			}
 		}
 	},
 
