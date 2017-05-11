@@ -216,10 +216,6 @@ function loadList(){
 		
 		calcPrice();
 	});
-}
-
-$(document).ready(function(){
-	loadList();
 	$('body').on('click', 'a', function(){
 		chrome.tabs.create({url: $(this).attr('href')});
 		return false;
@@ -235,16 +231,18 @@ $(document).ready(function(){
 			loadList();
 		}
 	});
-	$(".ls_export").click(function(){
-		var strList = localStorage['list'];
-	    var blob = new Blob([strList]);
-	    
-	    var aLink = document.createElement('a');
-	    var evt = document.createEvent("MouseEvents");
-	    evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-	    aLink.download = "localStorage.json";
-	    aLink.href = URL.createObjectURL(blob);
-	    aLink.dispatchEvent(evt);
+	$('.checkitem').change(function(){
+		calcPrice();
+	});
+}
+
+$(document).ready(function(){
+	loadList();
+
+	$(".ls_update_all").click(function(){
+		if(confirm('确定要更新记录吗？')){
+			$('.ls_save').trigger('click');
+		};
 	});
 	$(".ls_view").click(function(){
 		chrome.tabs.create({
@@ -260,6 +258,17 @@ $(document).ready(function(){
             });
         });
 	});
+	$(".ls_export").click(function(){
+		var strList = localStorage['list'];
+	    var blob = new Blob([strList]);
+	    
+	    var aLink = document.createElement('a');
+	    var evt = document.createEvent("MouseEvents");
+	    evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	    aLink.download = "localStorage.json";
+	    aLink.href = URL.createObjectURL(blob);
+	    aLink.dispatchEvent(evt);
+	});
 	document.getElementById('upload').onchange = function () {
 		getFileContent(this, function (str) {
 			localStorage['list'] = str;
@@ -267,7 +276,4 @@ $(document).ready(function(){
 			loadList();
 		});
 	};
-	$('.checkitem').change(function(){
-		calcPrice();
-	});
 });

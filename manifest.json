@@ -10,7 +10,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"http://www.toranoana.jp/*/article/*",
+				"http://www.toranoana.jp/*article/*",
 				"https://www.c-queen.net/*i/*",
 				"http://alice-books.com/item/show/*"
 			],
@@ -22,7 +22,7 @@
 		},
 		{
 			"matches": [
-				"http://www.toranoana.jp/*/genre/*",
+				"http://www.toranoana.jp/*genre/*",
 				"https://www.c-queen.net/c/*",
 				"http://alice-books.com/*genre*"
 			],
